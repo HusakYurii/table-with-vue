@@ -1,7 +1,7 @@
 <template>
     <thead>
         <tr>
-            <th scope="col" v-for="name in names">{{name}}</th>
+            <th v-for="name in names" scope="col">{{name}}</th>
         </tr>
     </thead>
 </template>
