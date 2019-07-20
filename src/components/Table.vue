@@ -1,6 +1,6 @@
 <template>
     <main>
-        <Navigation v-bind:navigation="navigation"/>
+        <Navigation v-bind:navigation="navigation" v-on:onButtonClick="sortTableBy" v-on:onSearchInput="searchBy"/>
         <table class="table table-striped table-bordered">
             <TableHeader v-bind:header="header"/>
             <TableBody v-bind:body="body"/>
@@ -26,7 +26,12 @@
         data() {
             return {
                 navigation: {
-                    sortRules: ["name", "location"]
+                    sortRules: ["name", "location"],
+                    sortStates: {
+                        none: 0,
+                        smToLg: 1,
+                        lgToSm: 2
+                    }
                 },
                 header: {
                     names: ["#", "name", "location", "currency"],
@@ -34,6 +39,14 @@
                 body: {
                     rows: this.data
                 }
+            }
+        },
+        methods: {
+            sortTableBy(deta){
+                //as a button clicked sort the table by `rule` and requested `sort state`
+            },
+            searchBy(value) {
+                //as search data received sort the table by matched search strings
             }
         }
     }
