@@ -1,7 +1,7 @@
 <template>
     <thead>
         <tr>
-            <th v-for="name in names" scope="col">{{name}}</th>
+            <th v-for="header in headers" scope="col">{{header}}</th>
         </tr>
     </thead>
 </template>
@@ -10,12 +10,7 @@
     export default {
         name: "TableHeader",
         props: {
-            header: Object
-        },
-        data(){
-            return {
-                names: this.header.names
-            }
+            headers: Array
         }
     }
 </script>

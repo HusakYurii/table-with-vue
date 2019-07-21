@@ -2,8 +2,8 @@
     <div class="container-fluid">
         <nav class="navbar navbar-light bg-light row">
             <div v-on:click="onButtonClick" class="row col-lg-8 col-sm-8 cl-12">
-                <button v-for="rule in sortRules" v-bind:id="rule.name" type="button" class="btn btn-success m-1">
-                    {{`Sort by: ${rule.name}`}}
+                <button v-for="rule in sortRules" v-bind:id="rule" type="button" class="btn btn-success m-1">
+                    {{`Sort by: ${rule}`}}
                 </button>
             </div>
             <div class="col-lg-4 col-sm-4 col-12">
@@ -26,8 +26,12 @@
         },
         methods: {
             onButtonClick(event){
-                const id = event.target.getAttribute("id");
-                this.$emit("onButtonClick", {rule: id});
+                let id = event.target.getAttribute ("id");
+
+                if(this.sortRules.includes(id)){
+                    id = id.toLowerCase();
+                    this.$emit("onButtonClick", {rule: id});
+                }
             },
             onSearchInput(event){
                 const {target: {value}} = event;
