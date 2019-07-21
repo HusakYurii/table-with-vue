@@ -23,7 +23,7 @@
             onButtonClick(event){
                 let id = event.target.getAttribute ("id");
 
-                if(this.sortRules.includes(id)){
+                if(this.navigation.includes(id)){
                     id = id.toLowerCase();
                     this.$emit("onButtonClick", {rule: id});
                 }
