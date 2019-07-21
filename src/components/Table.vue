@@ -2,7 +2,7 @@
     <main>
         <Navigation v-bind:navigation="navigation" v-on:onButtonClick="sortTableBy" v-on:onSearchInput="searchBy"/>
         <table class="table table-striped table-bordered">
-            <TableHeader v-bind:header="headers"/>
+            <TableHeader v-bind:headers="headers"/>
             <TableBody v-bind:rows="bodyData"/>
         </table>
     </main>
@@ -25,19 +25,13 @@
         },
         data() {
             return {
-                navigation: {
-                    sortRules: ["Name", "Location"],
-                    currRule: {
-                        rule: "",
-                        state: 0
-                    },
-                    SORT_STATES: {
-                        NONE: 0,
-                        SM_TO_LG: 1,
-                        LG_TO_SM: 2
-                    }
+                navigation: ["Name", "Location"],
+                SORT_STATES: {
+                    CURR: 1,
+                    SM_TO_LG: -1,
+                    LG_TO_SM: 1
                 },
-                headers: ["#", "name", "location", "currency"],
+                headers: ["#", "Name", "Location", "Currency"],
                 bodyData: []
             }
         },
@@ -46,17 +40,35 @@
         },
         methods: {
             sortTableBy({role}) {
-                //as a button clicked sort the table by `rule` and requested `sort state`
+                this.setNewState();
+
+                const {SM_TO_LG, LG_TO_SM, CURR} = this.SORT_STATES;
+
+                switch (CURR) {
+                    case SM_TO_LG:
+                        this.bodyData.sort((a, b) => a[role] > b[role] ? 1 : -1);
+                        break;
+                    case LG_TO_SM:
+                        this.bodyData.sort((a, b) => a[role] < b[role] ? 1 : -1);
+                        break;
+                    default:
+                        console.warn(`Something went wrong for sorting rule: ${role}, state ${state}`)
+                }
+            },
+            setNewState() {
+                this.SORT_STATES.CURR *= -1;
             },
             searchBy({value}) {
-                if (!value.trim()) {
+                value = value.trim().toLowerCase();
+
+                if (!value) {
                     this.bodyData = [...this.data];
                     return;
                 }
 
                 this.bodyData = this.data.filter(row => (
-                    row.name.startsWith(value) ||
-                    row.location.startsWith(value)
+                    row.name.toLowerCase().startsWith(value) ||
+                    row.location.toLowerCase().startsWith(value)
                 ));
             }
         }
