@@ -1,6 +1,9 @@
 <template>
-    <main>
-        <Navigation v-bind:navigation="navigation" v-on:onButtonClick="sortTableBy" v-on:onSearchInput="searchBy"/>
+    <main class="container-fluid">
+        <Navigation v-bind:navigation="navigation" 
+			v-on:onButtonClick="sortTableBy" 
+			v-on:onSearchInput="searchBy"
+		/>
         <table class="table table-striped table-bordered">
             <TableHeader v-bind:headers="headers"/>
             <TableBody v-bind:rows="bodyData"/>
@@ -39,20 +42,20 @@
             this.bodyData = [...this.data];
         },
         methods: {
-            sortTableBy({role}) {
+            sortTableBy({rule}) {
                 this.setNewState();
 
                 const {SM_TO_LG, LG_TO_SM, CURR} = this.SORT_STATES;
 
                 switch (CURR) {
                     case SM_TO_LG:
-                        this.bodyData.sort((a, b) => a[role] > b[role] ? 1 : -1);
+                        this.bodyData.sort((a, b) => a[rule] > b[rule] ? 1 : -1);
                         break;
                     case LG_TO_SM:
-                        this.bodyData.sort((a, b) => a[role] < b[role] ? 1 : -1);
+                        this.bodyData.sort((a, b) => a[rule] < b[rule] ? 1 : -1);
                         break;
                     default:
-                        console.warn(`Something went wrong for sorting rule: ${role}, state ${state}`)
+                        console.warn(`Something went wrong for sorting rule: ${rule}`)
                 }
             },
             setNewState() {

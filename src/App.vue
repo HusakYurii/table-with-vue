@@ -22,5 +22,7 @@
 </script>
 
 <style>
-
+	#app {
+		min-width: 630px;
+	}
 </style>
